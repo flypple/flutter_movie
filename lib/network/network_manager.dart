@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 
 import 'package:flutter_movie/bean/movie_bean.dart';
+import 'package:flutter_movie/bean/movie_tv_bean.dart';
 import 'urls.dart';
 
 /// 请求 正在热播 的数据
@@ -13,10 +14,10 @@ Future getHotShowing({int start, int count, String city}) async {
     };
     Map responseData = await request(hotShowingUrl, parameters: parameters);
     MovieBean movieBean = await MovieBean.fromMap(responseData);
-    serviceLog(movieBean);
+    log(movieBean);
     return movieBean;
   } catch (e) {
-    serviceLog(e);
+    log(e);
   }
 }
 
@@ -30,18 +31,31 @@ Future getTop250({int start, int count}) async {
   return await MovieBean.fromMap(responseData);
 }
 
+/// 请求电影或电视剧列表
+Future getMoviesOrTvs({String type, String tag, int start, int count,}) async {
+  var parameters = {
+    "type": type == null ? "movie" : type,
+    "tag": tag == null ? "热门" : tag,
+    "page_start": start == null ? 0 : start,
+    "page_limit": count == null ? 50 : count,
+  };
+  Map responseData = await request(movieOrTvUrl, parameters: parameters);
+  log(responseData);
+  return await MovieOrTvBean.fromMap(responseData);
+}
+
 Future request(String url, {Map parameters,}) async {
   try {
     Dio dio = Dio();
     var response = await dio.get(url, queryParameters: parameters);
-    serviceLog(response.data);
+    log(response.data);
     return response.data;
   } catch (e) {
-    return serviceLog(e);
+    return log(e);
   }
 }
 
 // 网络请求日志格式统一输出
-void serviceLog(Object o){
+void log(Object o){
   print("NetWork ========> $o");
 }

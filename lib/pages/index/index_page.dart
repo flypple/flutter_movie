@@ -15,7 +15,11 @@ class IndexPage extends StatefulWidget {
   Widget currentPage;
 
   @override
-  _IndexPageState createState() => _IndexPageState();
+  _IndexPageState createState() {
+
+    print("IndexPage: pageList = ${pageList}");
+    return _IndexPageState();
+  }
 }
 
 class _IndexPageState extends State<IndexPage> {
@@ -70,9 +74,9 @@ class _IndexPageState extends State<IndexPage> {
           ],
           type: BottomNavigationBarType.fixed,
           onTap: (index){
+            print("IndexPage: ==== ${widget.hashCode}");
             setState(() {
               currentIndex = index;
-              print("IndexPage: pageList = ${widget.pageList}");
               currentPage = widget.pageList[currentIndex];
             });
           },

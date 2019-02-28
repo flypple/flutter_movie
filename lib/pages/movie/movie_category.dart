@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter_movie/bean/movie_tv_bean.dart';
 import 'package:flutter_movie/network/network_manager.dart';
-import 'package:flutter_movie/bean/movie_bean.dart';
-import 'movie_grid_view.dart';
+import 'movie_tv_grid_view.dart';
 
-/// 热播页面
-class HotShowing extends StatefulWidget {
-
-  //保存数据
+class MovieCategory extends StatefulWidget {
   List<SubjectsBean> dataList = [];
-  //保存滚动到的位置
   double position = 0;
 
+  String type;
+  String category;
+
+  MovieCategory({this.type, this.category});
+
   @override
-  _HotShowingState createState() => _HotShowingState();
+  _MovieCategoryState createState() => _MovieCategoryState();
 }
 
-class _HotShowingState extends State<HotShowing> {
+class _MovieCategoryState extends State<MovieCategory> {
   List<SubjectsBean> dataList;
 
   Widget _createLoading(){
@@ -28,7 +29,7 @@ class _HotShowingState extends State<HotShowing> {
   Widget _createView(){
     var view = RefreshIndicator( // 支持下拉刷新的组件
       onRefresh: _refresh,
-      child: MovieGridView(
+      child: MovieOrTvGridView(
         position: widget.position,
         dataList: dataList,
         onScrollToBottom: (controller) { // 监听滚动
@@ -55,15 +56,17 @@ class _HotShowingState extends State<HotShowing> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(left: 6, right: 6),
+    return RefreshIndicator(
+      onRefresh: (){
+
+      },
       child: dataList.isEmpty ? _createLoading() : _createView(),
     );
   }
 
   /// 加载数据
   void _loadData() async {
-    await getHotShowing(start: 0, count: 20).then((value) {
+    await getMoviesOrTvs(type: widget.type, tag: widget.category, start: 0, count: 20).then((value) {
       if (value != null) {
         setState(() {
           dataList.addAll(value.subjects);
@@ -74,7 +77,7 @@ class _HotShowingState extends State<HotShowing> {
 
   /// 下拉刷新
   Future _refresh() async {
-    await getHotShowing(start: 0, count: 20).then((value) {
+    await getMoviesOrTvs(type: widget.type, tag: widget.category, start: 0, count: 20).then((value) {
       if (value != null) {
         setState(() {
           dataList.clear();
@@ -87,7 +90,8 @@ class _HotShowingState extends State<HotShowing> {
 
   /// 滚动到底时，加载更多
   void _loadMore() async {
-    await getHotShowing(start: dataList.length, count: 20).then((value) {
+    await getMoviesOrTvs(type: widget.type, tag: widget.category, start: dataList.length, count: 20).then((value) {
+      print("MovieCategory: ${value.toString()}");
       if (value != null) {
         setState(() {
           dataList.addAll(value.subjects);
