@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_movie/network/network_manager.dart';
 import 'package:flutter_movie/bean/movie_bean.dart';
-import 'movie_grid_view.dart';
+import 'movie_list_view.dart';
 
 class Top250 extends StatefulWidget {
 
@@ -25,7 +25,7 @@ class _Top250State extends State<Top250> {
   }
 
   Widget _createView(){
-    var gridView = MovieGridView(
+    var listView = MovieListView(
       position: widget.position,
       dataList: dataList,
       onScrollToBottom: (controller){
@@ -38,7 +38,7 @@ class _Top250State extends State<Top250> {
 
     return RefreshIndicator(
       onRefresh: _refresh,
-      child: gridView,
+      child: listView,
     );
   }
 
@@ -54,7 +54,6 @@ class _Top250State extends State<Top250> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(left: 6, right: 6),
       child: dataList.isEmpty ? _createLoading() : _createView(),
     );
   }

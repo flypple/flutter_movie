@@ -56,10 +56,7 @@ class _MovieCategoryState extends State<MovieCategory> {
 
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-      onRefresh: (){
-
-      },
+    return Container(
       child: dataList.isEmpty ? _createLoading() : _createView(),
     );
   }

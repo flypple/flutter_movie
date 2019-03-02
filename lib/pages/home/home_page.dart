@@ -13,7 +13,9 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
+
+  TabController _controller;
 
   @override
   void initState() {
@@ -24,33 +26,41 @@ class _HomePageState extends State<HomePage> {
         Top250(),
       ];
     }
+    _controller = TabController(
+      initialIndex: widget.currentIndex,
+      length: widget.tabViweList.length,
+      vsync: this,
+    );
+  }
+
+  @override
+  void dispose() {
+    widget.currentIndex = _controller.index;
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     print("HomePage: building……");
-    return DefaultTabController(
-      length: 2,
-      initialIndex: widget.currentIndex,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text("首页"),
-          bottom: TabBar(
-            labelColor: Colors.white,
-            indicatorSize: TabBarIndicatorSize.label,
-            labelStyle: TextStyle(fontSize: 16,),
-            unselectedLabelStyle: TextStyle(fontSize: 14,),
-            tabs: [
-              Tab(text: "正在热映",),
-              Tab(text: "Top250",),
-            ],
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("首页"),
+        bottom: TabBar(
+          controller: _controller,
+          labelColor: Colors.white,
+          labelStyle: TextStyle(fontSize: 16,),
+          tabs: [
+            Tab(text: "正在热映",),
+            Tab(text: "Top250",),
+          ],
         ),
-        body: Container(
-          color: GlobalConfig.backgroundColor,
-          child: TabBarView(
-            children: widget.tabViweList,
-          ),
+      ),
+      body: Container(
+        color: GlobalConfig.backgroundColor,
+        child: TabBarView(
+          controller: _controller,
+          children: widget.tabViweList,
         ),
       ),
     );

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_movie/network/network_manager.dart';
 import 'package:flutter_movie/bean/movie_bean.dart';
-import 'movie_grid_view.dart';
+import 'movie_list_view.dart';
 
 /// 热播页面
 class HotShowing extends StatefulWidget {
@@ -26,20 +26,28 @@ class _HotShowingState extends State<HotShowing> {
   }
 
   Widget _createView(){
+
+    var listView = MovieListView(
+      position: widget.position,
+      dataList: dataList,
+      onScrollToBottom: (controller) { // 监听滚动
+        // 当滚动到底部时，加载更多数据
+        if (controller.position.pixels ==
+            controller.position.maxScrollExtent) {
+          setState(() {
+
+          });
+          _loadMore();
+        }
+        widget.position = controller.position.pixels; // 保存位置
+      },
+    );
+
+
+
     var view = RefreshIndicator( // 支持下拉刷新的组件
       onRefresh: _refresh,
-      child: MovieGridView(
-        position: widget.position,
-        dataList: dataList,
-        onScrollToBottom: (controller) { // 监听滚动
-          // 当滚动到底部时，加载更多数据
-          if (controller.position.pixels ==
-              controller.position.maxScrollExtent) {
-            _loadMore();
-          }
-          widget.position = controller.position.pixels; // 保存位置
-        },
-      ),
+      child: listView,
     );
     return view;
   }
@@ -56,7 +64,6 @@ class _HotShowingState extends State<HotShowing> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(left: 6, right: 6),
       child: dataList.isEmpty ? _createLoading() : _createView(),
     );
   }

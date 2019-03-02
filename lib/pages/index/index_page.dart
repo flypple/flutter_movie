@@ -17,7 +17,6 @@ class IndexPage extends StatefulWidget {
   @override
   _IndexPageState createState() {
 
-    print("IndexPage: pageList = ${pageList}");
     return _IndexPageState();
   }
 }
@@ -26,6 +25,7 @@ class _IndexPageState extends State<IndexPage> {
 
   int currentIndex;
   Widget currentPage;
+  PageController pageController;
 
   @override
   void initState() {
@@ -43,6 +43,8 @@ class _IndexPageState extends State<IndexPage> {
     }
 
     currentPage = widget.pageList[currentIndex];
+
+    pageController = PageController(initialPage: currentIndex);
   }
 
   @override
@@ -51,7 +53,15 @@ class _IndexPageState extends State<IndexPage> {
 
     return Container(
       child: Scaffold(
-        body: currentPage,
+        body: PageView(
+          children: widget.pageList,
+          controller: pageController,
+          onPageChanged: (index){
+            setState(() {
+              currentIndex = index;
+            });
+          },
+        ),
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: currentIndex,
           items: <BottomNavigationBarItem>[
@@ -74,11 +84,7 @@ class _IndexPageState extends State<IndexPage> {
           ],
           type: BottomNavigationBarType.fixed,
           onTap: (index){
-            print("IndexPage: ==== ${widget.hashCode}");
-            setState(() {
-              currentIndex = index;
-              currentPage = widget.pageList[currentIndex];
-            });
+            pageController.jumpToPage(index);
           },
         ),
       ),

@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:flutter_movie/bean/movie_bean.dart';
-import 'package:flutter_movie/view/StaticRatingBar.dart';
+import 'package:flutter_movie/view/static_rating_bar.dart';
 
 /// 自定义GridView子控件样式
-class MovieItemView extends StatelessWidget {
+class MovieGridItem extends StatelessWidget {
   
   final SubjectsBean item;
   
-  MovieItemView(this.item);
+  MovieGridItem(this.item);
   
   @override
   Widget build(BuildContext context) {

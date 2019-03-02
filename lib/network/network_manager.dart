@@ -14,41 +14,46 @@ Future getHotShowing({int start, int count, String city}) async {
     };
     Map responseData = await request(hotShowingUrl, parameters: parameters);
     MovieBean movieBean = await MovieBean.fromMap(responseData);
-    log(movieBean);
     return movieBean;
   } catch (e) {
-    log(e);
+    return log(e);
   }
 }
 
 /// 请求 Top250 的数据
 Future getTop250({int start, int count}) async {
-  var parameters = {
-    "start": start == null ? 0 : start,
-    "count": count == null ? 50 : count,
-  };
-  Map responseData = await request(top250Url, parameters: parameters);
-  return await MovieBean.fromMap(responseData);
+  try {
+    var parameters = {
+      "start": start == null ? 0 : start,
+      "count": count == null ? 50 : count,
+    };
+    Map responseData = await request(top250Url, parameters: parameters);
+    return await MovieBean.fromMap(responseData);
+  } catch (e) {
+    return log(e);
+  }
 }
 
 /// 请求电影或电视剧列表
 Future getMoviesOrTvs({String type, String tag, int start, int count,}) async {
-  var parameters = {
-    "type": type == null ? "movie" : type,
-    "tag": tag == null ? "热门" : tag,
-    "page_start": start == null ? 0 : start,
-    "page_limit": count == null ? 50 : count,
-  };
-  Map responseData = await request(movieOrTvUrl, parameters: parameters);
-  log(responseData);
-  return await MovieOrTvBean.fromMap(responseData);
+  try {
+    var parameters = {
+      "type": type == null ? "movie" : type,
+      "tag": tag == null ? "热门" : tag,
+      "page_start": start == null ? 0 : start,
+      "page_limit": count == null ? 50 : count,
+    };
+    Map responseData = await request(movieOrTvUrl, parameters: parameters);
+    return await MovieOrTvBean.fromMap(responseData);
+  } catch (e) {
+    return log(e);
+  }
 }
 
 Future request(String url, {Map parameters,}) async {
   try {
     Dio dio = Dio();
     var response = await dio.get(url, queryParameters: parameters);
-    log(response.data);
     return response.data;
   } catch (e) {
     return log(e);

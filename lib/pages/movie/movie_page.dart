@@ -5,11 +5,14 @@ import 'movie_category.dart';
 
 class MoviePage extends StatefulWidget {
   List<Widget> pageList;
+  int currentIndex = 0;
   @override
   _MoviePageState createState() => _MoviePageState();
 }
 
-class _MoviePageState extends State<MoviePage> {
+class _MoviePageState extends State<MoviePage> with SingleTickerProviderStateMixin{
+
+  TabController _controller;
 
   @override
   void initState() {
@@ -19,30 +22,39 @@ class _MoviePageState extends State<MoviePage> {
         return MovieCategory(category: item);
       }).toList();
     }
+    _controller = TabController(
+      initialIndex: widget.currentIndex,
+      length: widget.pageList.length,
+      vsync: this,
+    );
+  }
+
+  @override
+  void dispose() {
+    widget.currentIndex = _controller.index;
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: movieCategoryList.length,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text("电影"),
-          bottom: TabBar(
-            labelColor: Colors.white,
-            indicatorSize: TabBarIndicatorSize.label,
-            labelStyle: TextStyle(fontSize: 16,),
-            unselectedLabelStyle: TextStyle(fontSize: 14,),
-            isScrollable: true,
-            tabs: movieCategoryList.map((item){
-              return Tab(text: item,);
-            }).toList(),
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("电影"),
+        bottom: TabBar(
+          controller: _controller,
+          labelColor: Colors.white,
+          labelStyle: TextStyle(fontSize: 16,),
+          isScrollable: true,
+          tabs: movieCategoryList.map((item) {
+            return Tab(text: item,);
+          }).toList(),
         ),
-        body: Container(
-          child: TabBarView(
-            children: widget.pageList,
-          ),
+      ),
+      body: Container(
+        child: TabBarView(
+          controller: _controller,
+          children: widget.pageList,
         ),
       ),
     );

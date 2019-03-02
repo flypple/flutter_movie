@@ -61,7 +61,7 @@ class SubjectsBean {
   RatingBean rating;
   List<String> genres;
   List<CastsBean> casts;
-  List<DirectorsListBean> directors;
+  List<DirectorsBean> directors;
 
   static SubjectsBean fromMap(Map<String, dynamic> map) {
     SubjectsBean subjectsListBean = new SubjectsBean();
@@ -76,7 +76,7 @@ class SubjectsBean {
     subjectsListBean.rating = RatingBean.fromMap(map['rating']);
     subjectsListBean.casts = CastsBean.fromMapList(map['casts']);
     subjectsListBean.directors =
-        DirectorsListBean.fromMapList(map['directors']);
+        DirectorsBean.fromMapList(map['directors']);
 
     List<dynamic> dynamicList0 = map['genres'];
     subjectsListBean.genres = new List();
@@ -184,7 +184,7 @@ class CastsBean {
   }
 }
 
-class DirectorsListBean {
+class DirectorsBean {
   /**
    * alt : "https://movie.douban.com/celebrity/1019016/"
    * name : "罗伯特·罗德里格兹"
@@ -197,8 +197,8 @@ class DirectorsListBean {
   String id;
   AvatarsBean avatars;
 
-  static DirectorsListBean fromMap(Map<String, dynamic> map) {
-    DirectorsListBean directorsListBean = new DirectorsListBean();
+  static DirectorsBean fromMap(Map<String, dynamic> map) {
+    DirectorsBean directorsListBean = new DirectorsBean();
     directorsListBean.alt = map['alt'];
     directorsListBean.name = map['name'];
     directorsListBean.id = map['id'];
@@ -206,8 +206,8 @@ class DirectorsListBean {
     return directorsListBean;
   }
 
-  static List<DirectorsListBean> fromMapList(dynamic mapList) {
-    List<DirectorsListBean> list = new List(mapList.length);
+  static List<DirectorsBean> fromMapList(dynamic mapList) {
+    List<DirectorsBean> list = new List(mapList.length);
     for (int i = 0; i < mapList.length; i++) {
       list[i] = fromMap(mapList[i]);
     }
