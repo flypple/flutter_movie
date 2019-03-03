@@ -14,6 +14,7 @@ class MyApp extends StatelessWidget {
       title: 'douban',
       theme: GlobalConfig.themeData,
       home: index,
+      debugShowCheckedModeBanner: false,
     );
   }
 }

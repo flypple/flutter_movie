@@ -21,6 +21,7 @@ dependencies:
   cupertino_icons: ^0.1.2
   dio: ^2.0.9
   flutter_screenutil: ^0.5.1
+#  webview_flutter: ^0.3.3+1
 
 dev_dependencies:
   flutter_test:
@@ -41,6 +42,9 @@ flutter:
   # assets:
   #  - images/a_dot_burr.jpeg
   #  - images/a_dot_ham.jpeg
+  assets:
+    - assets/images/aodamiao.jpg
+    - assets/images/aodamiao.gif
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.

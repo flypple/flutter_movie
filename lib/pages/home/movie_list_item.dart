@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:flutter_movie/bean/movie_bean.dart';
 import 'package:flutter_movie/global_config.dart';
 import 'package:flutter_movie/view/static_rating_bar.dart';
+import 'package:flutter_movie/pages/details/movie_details_page.dart';
 
 class MovieListItem extends StatelessWidget {
   final SubjectsBean item;
@@ -144,7 +146,11 @@ class MovieListItem extends StatelessWidget {
           color: Colors.white
       ),
       child: FlatButton(
-        onPressed: (){},
+        onPressed: (){
+          Navigator.of(context).push(CupertinoPageRoute(builder: (context){
+            return MovieDetailsPage(movieId: item.id,);
+          }));
+        },
         padding: EdgeInsets.all(0),
         child: Container(
           padding: EdgeInsets.only(left: 16, top: 8, right: 16, bottom: 8),

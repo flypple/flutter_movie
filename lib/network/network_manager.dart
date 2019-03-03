@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 
 import 'package:flutter_movie/bean/movie_bean.dart';
 import 'package:flutter_movie/bean/movie_tv_bean.dart';
+import 'package:flutter_movie/bean/movie_details_bean.dart';
 import 'urls.dart';
 
 /// 请求 正在热播 的数据
@@ -45,6 +46,15 @@ Future getMoviesOrTvs({String type, String tag, int start, int count,}) async {
     };
     Map responseData = await request(movieOrTvUrl, parameters: parameters);
     return await MovieOrTvBean.fromMap(responseData);
+  } catch (e) {
+    return log(e);
+  }
+}
+
+Future getMovieDetails(String movieId) async {
+  try {
+    Map responseData = await request(movieDetailsUrl + movieId);
+    return await MovieDetailsBean.fromMap(responseData);
   } catch (e) {
     return log(e);
   }
