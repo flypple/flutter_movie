@@ -18,6 +18,8 @@ class _Top250State extends State<Top250> {
 
   List<SubjectsBean> dataList;
 
+  bool _isLoadingMore = false;
+
   Widget _createLoading(){
     return Center(
       child: CircularProgressIndicator(),
@@ -81,13 +83,17 @@ class _Top250State extends State<Top250> {
   }
 
   void _loadMore() async {
-    await getTop250(start: dataList.length, count: 20).then((value) {
-      if (value != null) {
-        setState(() {
-          dataList.addAll(value.subjects);
-        });
-      }
-    });
+    if (!_isLoadingMore) {
+      _isLoadingMore = true;
+      await getTop250(start: dataList.length, count: 20).then((value) {
+        if (value != null) {
+          setState(() {
+            dataList.addAll(value.subjects);
+          });
+        }
+        _isLoadingMore = false;
+      });
+    }
     return null;
   }
 }

@@ -17,7 +17,9 @@ class HotShowing extends StatefulWidget {
 }
 
 class _HotShowingState extends State<HotShowing> {
-  List<SubjectsBean> dataList;
+  List<SubjectsBean> _dataList;
+
+  bool _isLoadingMore = false;
 
   Widget _createLoading(){
     return Center(
@@ -29,14 +31,11 @@ class _HotShowingState extends State<HotShowing> {
 
     var listView = MovieListView(
       position: widget.position,
-      dataList: dataList,
+      dataList: _dataList,
       onScrollToBottom: (controller) { // 监听滚动
         // 当滚动到底部时，加载更多数据
         if (controller.position.pixels ==
             controller.position.maxScrollExtent) {
-          setState(() {
-
-          });
           _loadMore();
         }
         widget.position = controller.position.pixels; // 保存位置
@@ -55,8 +54,8 @@ class _HotShowingState extends State<HotShowing> {
   @override
   void initState() {
     super.initState();
-    dataList = widget.dataList;
-    if (dataList.isEmpty) {
+    _dataList = widget.dataList;
+    if (_dataList.isEmpty) {
       _loadData();
     }
   }
@@ -64,7 +63,7 @@ class _HotShowingState extends State<HotShowing> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: dataList.isEmpty ? _createLoading() : _createView(),
+      child: _dataList.isEmpty ? _createLoading() : _createView(),
     );
   }
 
@@ -73,7 +72,7 @@ class _HotShowingState extends State<HotShowing> {
     await getHotShowing(start: 0, count: 20).then((value) {
       if (value != null) {
         setState(() {
-          dataList.addAll(value.subjects);
+          _dataList.addAll(value.subjects);
         });
       }
     });
@@ -84,8 +83,8 @@ class _HotShowingState extends State<HotShowing> {
     await getHotShowing(start: 0, count: 20).then((value) {
       if (value != null) {
         setState(() {
-          dataList.clear();
-          dataList.addAll(value.subjects);
+          _dataList.clear();
+          _dataList.addAll(value.subjects);
         });
       }
     });
@@ -94,13 +93,17 @@ class _HotShowingState extends State<HotShowing> {
 
   /// 滚动到底时，加载更多
   void _loadMore() async {
-    await getHotShowing(start: dataList.length, count: 20).then((value) {
-      if (value != null) {
-        setState(() {
-          dataList.addAll(value.subjects);
-        });
-      }
-    });
+    if (!_isLoadingMore) {
+      _isLoadingMore = true;
+      await getHotShowing(start: _dataList.length, count: 20).then((value) {
+        if (value != null) {
+          setState(() {
+            _dataList.addAll(value.subjects);
+          });
+        }
+        _isLoadingMore = false;
+      });
+    }
     return null;
   }
 }

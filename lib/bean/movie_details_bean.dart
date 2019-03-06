@@ -1,3 +1,7 @@
+import 'image_bean.dart';
+import 'filmmaker_bean.dart';
+import 'rating_bean.dart';
+
 class MovieDetailsBean {
 
   /**
@@ -47,8 +51,8 @@ class MovieDetailsBean {
   List<String> aka;
   List<String> countries;
   List<String> genres;
-  List<CastsBean> casts;
-  List<DirectorsBean> directors;
+  List<FilmmakerBean> casts;
+  List<FilmmakerBean> directors;
 
   static MovieDetailsBean fromMap(Map<String, dynamic> map) {
     MovieDetailsBean movie_details_bean = new MovieDetailsBean();
@@ -70,8 +74,8 @@ class MovieDetailsBean {
     movie_details_bean.ratings_count = map['ratings_count'];
     movie_details_bean.images = ImagesBean.fromMap(map['images']);
     movie_details_bean.rating = RatingBean.fromMap(map['rating']);
-    movie_details_bean.casts = CastsBean.fromMapList(map['casts']);
-    movie_details_bean.directors = DirectorsBean.fromMapList(map['directors']);
+    movie_details_bean.casts = FilmmakerBean.fromMapList(map['casts']);
+    movie_details_bean.directors = FilmmakerBean.fromMapList(map['directors']);
 
     List<dynamic> dynamicList0 = map['aka'];
     movie_details_bean.aka = new List();
@@ -90,161 +94,6 @@ class MovieDetailsBean {
 
   static List<MovieDetailsBean> fromMapList(dynamic mapList) {
     List<MovieDetailsBean> list = new List(mapList.length);
-    for (int i = 0; i < mapList.length; i++) {
-      list[i] = fromMap(mapList[i]);
-    }
-    return list;
-  }
-
-}
-
-class ImagesBean {
-
-  /**
-   * small : "https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2508925590.jpg"
-   * large : "https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2508925590.jpg"
-   * medium : "https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2508925590.jpg"
-   */
-
-  String small;
-  String large;
-  String medium;
-
-  static ImagesBean fromMap(Map<String, dynamic> map) {
-    ImagesBean imagesBean = new ImagesBean();
-    imagesBean.small = map['small'];
-    imagesBean.large = map['large'];
-    imagesBean.medium = map['medium'];
-    return imagesBean;
-  }
-
-  static List<ImagesBean> fromMapList(dynamic mapList) {
-    List<ImagesBean> list = new List(mapList.length);
-    for (int i = 0; i < mapList.length; i++) {
-      list[i] = fromMap(mapList[i]);
-    }
-    return list;
-  }
-}
-
-class RatingBean {
-
-  /**
-   * stars : "40"
-   * average : 7.7
-   * max : 10
-   * min : 0
-   */
-
-  String stars;
-  double average;
-  int max;
-  int min;
-
-  static RatingBean fromMap(Map<String, dynamic> map) {
-    RatingBean ratingBean = new RatingBean();
-    ratingBean.stars = map['stars'];
-    ratingBean.average = map['average'];
-    ratingBean.max = map['max'];
-    ratingBean.min = map['min'];
-    return ratingBean;
-  }
-
-  static List<RatingBean> fromMapList(dynamic mapList) {
-    List<RatingBean> list = new List(mapList.length);
-    for (int i = 0; i < mapList.length; i++) {
-      list[i] = fromMap(mapList[i]);
-    }
-    return list;
-  }
-}
-
-class CastsBean {
-
-  /**
-   * alt : "https://movie.douban.com/celebrity/1373292/"
-   * name : "塞伊拉·沃西"
-   * id : "1373292"
-   * avatars : {"small":"https://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1494080264.12.jpg","large":"https://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1494080264.12.jpg","medium":"https://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1494080264.12.jpg"}
-   */
-
-  String alt;
-  String name;
-  String id;
-  AvatarsBean avatars;
-
-  static CastsBean fromMap(Map<String, dynamic> map) {
-    CastsBean castsListBean = new CastsBean();
-    castsListBean.alt = map['alt'];
-    castsListBean.name = map['name'];
-    castsListBean.id = map['id'];
-    castsListBean.avatars = AvatarsBean.fromMap(map['avatars']);
-    return castsListBean;
-  }
-
-  static List<CastsBean> fromMapList(dynamic mapList) {
-    List<CastsBean> list = new List(mapList.length);
-    for (int i = 0; i < mapList.length; i++) {
-      list[i] = fromMap(mapList[i]);
-    }
-    return list;
-  }
-}
-
-class DirectorsBean {
-
-  /**
-   * alt : "https://movie.douban.com/celebrity/1379532/"
-   * name : "阿德瓦·香登"
-   * id : "1379532"
-   * avatars : {"small":"https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1509423054.09.jpg","large":"https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1509423054.09.jpg","medium":"https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1509423054.09.jpg"}
-   */
-
-  String alt;
-  String name;
-  String id;
-  AvatarsBean avatars;
-
-  static DirectorsBean fromMap(Map<String, dynamic> map) {
-    DirectorsBean directorsListBean = new DirectorsBean();
-    directorsListBean.alt = map['alt'];
-    directorsListBean.name = map['name'];
-    directorsListBean.id = map['id'];
-    directorsListBean.avatars = AvatarsBean.fromMap(map['avatars']);
-    return directorsListBean;
-  }
-
-  static List<DirectorsBean> fromMapList(dynamic mapList) {
-    List<DirectorsBean> list = new List(mapList.length);
-    for (int i = 0; i < mapList.length; i++) {
-      list[i] = fromMap(mapList[i]);
-    }
-    return list;
-  }
-}
-
-class AvatarsBean {
-
-  /**
-   * small : "https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1509423054.09.jpg"
-   * large : "https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1509423054.09.jpg"
-   * medium : "https://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1509423054.09.jpg"
-   */
-
-  String small;
-  String large;
-  String medium;
-
-  static AvatarsBean fromMap(Map<String, dynamic> map) {
-    AvatarsBean avatarsBean = new AvatarsBean();
-    avatarsBean.small = map['small'];
-    avatarsBean.large = map['large'];
-    avatarsBean.medium = map['medium'];
-    return avatarsBean;
-  }
-
-  static List<AvatarsBean> fromMapList(dynamic mapList) {
-    List<AvatarsBean> list = new List(mapList.length);
     for (int i = 0; i < mapList.length; i++) {
       list[i] = fromMap(mapList[i]);
     }

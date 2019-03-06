@@ -20,6 +20,8 @@ class MovieCategory extends StatefulWidget {
 class _MovieCategoryState extends State<MovieCategory> {
   List<SubjectsBean> dataList;
 
+  bool _isLoadingMore = false;
+
   Widget _createLoading(){
     return Center(
       child: CircularProgressIndicator(),
@@ -87,14 +89,22 @@ class _MovieCategoryState extends State<MovieCategory> {
 
   /// 滚动到底时，加载更多
   void _loadMore() async {
-    await getMoviesOrTvs(type: widget.type, tag: widget.category, start: dataList.length, count: 20).then((value) {
-      print("MovieCategory: ${value.toString()}");
-      if (value != null) {
-        setState(() {
-          dataList.addAll(value.subjects);
-        });
-      }
-    });
+
+    if (!_isLoadingMore) {
+      _isLoadingMore = true;
+      await getMoviesOrTvs(type: widget.type,
+          tag: widget.category,
+          start: dataList.length,
+          count: 20).then((value) {
+        print("MovieCategory: ${value.toString()}");
+        if (value != null) {
+          setState(() {
+            dataList.addAll(value.subjects);
+          });
+        }
+        _isLoadingMore = false;
+      });
+    }
     return null;
   }
 }
