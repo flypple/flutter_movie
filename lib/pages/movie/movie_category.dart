@@ -42,6 +42,7 @@ class _MovieCategoryState extends State<MovieCategory> {
           }
           widget.position = controller.position.pixels; // 保存位置
         },
+        type: widget.type == "tv" ? "电视剧" : "电影",
       ),
     );
     return view;

@@ -6,13 +6,14 @@ import 'movie_tv_grid_item.dart';
 /// 统一样式的网格列表
 class MovieOrTvGridView extends StatelessWidget {
 
+  final String type;
   final List<SubjectsBean> dataList;
   ScrollController _scrollController;
   final Function(ScrollController controller) onScrollToBottom;
   //保存初始位置
   final double position;
 
-  MovieOrTvGridView({this.dataList, this.onScrollToBottom, this.position});
+  MovieOrTvGridView({this.dataList, this.onScrollToBottom, this.position, this.type});
   
   @override
   Widget build(BuildContext context) {
@@ -33,7 +34,7 @@ class MovieOrTvGridView extends StatelessWidget {
         crossAxisSpacing: 4, // 列间距，由于横纵比是定值，所以列间距会影响子控件的大小
 
         children: dataList.map((item) {
-          return MovieOrTvItemView(item); // 自定义的GridView子控件
+          return MovieOrTvItemView(item, type: type,); // 自定义的GridView子控件
         },).toList(),
       ),
     );
