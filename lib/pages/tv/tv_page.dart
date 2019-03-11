@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_movie/bean/category_list.dart';
 import 'package:flutter_movie/pages/movie/movie_category.dart';
+import 'package:flutter_movie/pages/home/search_bar.dart';
 
 class TvPage extends StatefulWidget {
   List<Widget> pageList;
@@ -41,7 +42,7 @@ class _TvPageState extends State<TvPage> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("电视剧"),
+        title: SearchBar(),
         bottom: TabBar(
           controller: _controller,
           labelColor: Colors.white,

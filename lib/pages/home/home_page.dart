@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_movie/global_config.dart';
+import 'package:flutter_movie/pages/home/search_bar.dart';
 import 'hot_showing.dart';
 import 'top_250.dart';
 
@@ -45,7 +46,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     print("HomePage: building……");
     return Scaffold(
       appBar: AppBar(
-        title: Text("首页"),
+        title: SearchBar(),
         bottom: TabBar(
           controller: _controller,
           labelColor: Colors.white,

@@ -56,6 +56,7 @@ class _IndexPageState extends State<IndexPage> {
         body: PageView(
           children: widget.pageList,
           controller: pageController,
+          physics: NeverScrollableScrollPhysics(),
           onPageChanged: (index){
             setState(() {
               currentIndex = index;

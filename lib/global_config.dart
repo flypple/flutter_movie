@@ -10,4 +10,5 @@ class GlobalConfig{
   static Color fontColorGray = Colors.grey;
 
   static Color backgroundGrey = Color(0xFFF2F1EE);
+  static Color backgroundGrey2 = Color(0xFFEEEEEE);
 }
